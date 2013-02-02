@@ -1,5 +1,5 @@
 {
   "name": "screen-buffer"
-, "version": "0.1.0"
+, "version": "0.1.2"
 , "main": ["./screen-buffer.js"]
 }
