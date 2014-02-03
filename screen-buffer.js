@@ -1,3 +1,4 @@
+/*jshint bitwise:false*/
 
 // ScreenBuffer
 // ============
@@ -28,6 +29,8 @@ function ScreenBuffer() {
   this.data = []
 }
 
+ScreenBuffer.EMPTY_CELL = [(257 << 9) | 256, ' ']
+
 // ### update(y, [ [attr, char], [attr, char], ... ]) 
 //
 // Set one line of data in the ScreenBuffer.
@@ -36,11 +39,12 @@ function ScreenBuffer() {
 //
 ScreenBuffer.prototype.update = function(y, target) {
   var arr = this.data[y] || (this.data[y] = [])
+  arr.length = target.length
   for (var i = 0; i < target.length; i ++) {
     if (target[i]) {
       arr[i] = [target[i][0], target[i][1]]
     } else {
-      arr[i] = [0, ' ']
+      arr[i] = null
     }
   }
 }
@@ -53,8 +57,8 @@ ScreenBuffer.prototype.toString = function() {
   var lines = []
   for (var i = 0; i < this.data.length; i ++) {
     var arr = this.data[i], o = ''
-    for (var j = 0; j < arr.length; j ++) {
-      if (arr[j]) o += arr[j][1]
+    if (arr) for (var j = 0; j < arr.length; j ++) {
+      o += arr[j] ? arr[j][1] : ' '
     }
     lines.push(o)
   }
@@ -110,16 +114,53 @@ ScreenBuffer.prototype.setCols = function(row, cols) {
 // Returned value is in form of [ attributes, ch ].
 //
 ScreenBuffer.prototype.getCell = function(row, col) {
-  return this.data[row] ? (this.data[row][col] || [0, ' ']) : [0, ' ']
+  return (this.data[row] && this.data[row][col]) || ScreenBuffer.EMPTY_CELL
 }
 
 // ### setCell(row, col, cell)
 //
 // Sets the cell at (row, col). A cell is in form of [ attributes, ch ].
 //
-ScreenBuffer.prototype.getCell = function(row, col) {
-  return this.data[row] ? (this.data[row][col] || [0, ' ']) : [0, ' ']
+ScreenBuffer.prototype.setCell = function(row, col, cell) {
+  var arr = this.data[row] || (this.data[row] = [])
+  arr[col] = cell
+}
+
+// ### resize(rows, cols)
+// 
+// Resizes the screen buffer.
+//
+ScreenBuffer.prototype.resize = function(rows, cols) {
+  this.setRows(rows)
+  for (var i = 0; i < rows; i ++) this.setCols(i, cols)
+}
+
+// ### clone()
+//
+// Returns a clone of the screen buffer.
+//
+ScreenBuffer.prototype.clone = function() {
+  var clone = new ScreenBuffer()
+  clone.setRows(this.getRows())
+  clone.setCursor(this.cursorX, this.cursorY)
+  for (var i = 0; i < this.data.length; i ++) {
+    if (this.data[i]) clone.update(i, this.data[i])
+  }
+  return clone
+}
+
+// ### getRow(row)
+//
+// Returns a row data array. _Don't modify it!_
+//
+ScreenBuffer.prototype.getRow = function(row) {
+  return this.data[row]
 }
 
 if (typeof module != 'undefined') module.exports = ScreenBuffer
+
+
+
+
+
 
