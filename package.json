@@ -1,6 +1,6 @@
 {
   "name": "screen-buffer",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A simple screen buffer component",
   "main": "index.js",
   "scripts": {
