@@ -28,7 +28,6 @@ void function() {
   function diff(source, target) {
 
     var operations = [ ]
-    var output = { o: operations }
     var rows = target.getRows()
 
     /* resize rows */
@@ -54,11 +53,26 @@ void function() {
 
       /* search nearby rows that are most similar */
       var candidate = null
-      for (var k = Math.max(i - 4, 0); k < source.getRows() && k <= i + 4; k ++) {
+
+      /* get the rows that we can try */
+      var toTry = [i, i - 1, i + 1, i - 2, i + 2, i - 3, i + 3]
+            .filter(function(k) { return 0 <= k && k < source.getRows() })
+
+      /* for each possible rows to try, compute the difference between rows */
+      for (var j = 0; j < toTry.length; j ++) {
+
+        var k = toTry[j]
+
         var challenger = getDifferences(i, k, cols)
         if (candidate == null || challenger.changes < candidate.changes) {
           candidate = challenger
         }
+
+        /* stop if found a perfect match */
+        if (candidate.changes === 0) {
+          break
+        }
+
       }
 
       /* if we can't find any similar row, take itself! */
