@@ -1,10 +1,28 @@
 ScreenBuffer
 ============
+
 A ScreenBuffer represents a visible portion of a terminal in a screen.
 A ScreenBuffer contains a lot of cells.
 Each cell contains a character and attributes,
 such as color and boldness.
 It also keeps track of cursor position.
+
+
+## Usage in Node.js
+
+```javascript
+var ScreenBuffer = require('screen-buffer')
+```
+
+
+## Usage in Browser
+
+```html
+<script src="path/to/screen-buffer.js"></script>
+<script src="path/to/diff.js"></script><!-- if you need .diff -->
+<script src="path/to/patch.js"></script><!-- if you need .patch -->
+```
+
 
 ## Cell Attributes
 
