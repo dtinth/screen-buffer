@@ -3,7 +3,7 @@ void function() {
 
   // ### ScreenBuffer.patch(screenbuffer, operations)
   //
-  // Applies the operations from the array onto the screenbuffer.
+  // Applies the operations from the diff array onto the screenbuffer.
   //
   function patch(screenbuffer, operations) {
 

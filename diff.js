@@ -1,6 +1,33 @@
 
 void function() {
 
+  // ## ScreenBuffer Diff and Patch
+  //
+  // Sometimes, you may want to stream the content of a screen buffer
+  // over the network.
+  //
+  // You can use `ScreenBuffer.diff` and `ScreenBuffer.patch` for this.
+  //
+  // Suppose that you have two ScreenBuffer objects, `a` and `b`,
+  //
+  // ```javascript
+  // var operations = ScreenBuffer.diff(b, a)
+  // ```
+  //
+  // This will compute the operations that needs to be done on `b`
+  // to make its contents equal to `a`.
+  // The returned result is an array of operations,
+  // which can be sent over the wire to another user.
+  //
+  // At the other side,
+  // when they received the operations,
+  // they can apply it to their own buffer like this:
+  //
+  // ```javascript
+  // ScreenBuffer.patch(b, operations)
+  // ```
+  //
+  //
   // ### ScreenBuffer.diff(source, destination)
   //
   // Computes the list of operation _to be applied on the source_

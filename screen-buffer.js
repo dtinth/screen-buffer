@@ -71,7 +71,17 @@ ScreenBuffer.prototype.toString = function() {
 // Sets the cursor position.
 //
 ScreenBuffer.prototype.setCursor = function(x, y) {
+
+  // ### cursorX
+  //
+  // The X position of the cursor.
+  //
   this.cursorX = x
+
+  // ### cursorY
+  //
+  // The Y position of the cursor.
+  //
   this.cursorY = y
 }
 

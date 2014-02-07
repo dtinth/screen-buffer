@@ -37,6 +37,14 @@ Returns the string in the display buffer.
 
 Sets the cursor position.
 
+### cursorX
+
+The X position of the cursor.
+
+### cursorY
+
+The Y position of the cursor.
+
 ### getRows()
 
 Returns the number of rows in the buffer.
@@ -61,4 +69,71 @@ Returned value is in form of [ attributes, ch ].
 ### setCell(row, col, cell)
 
 Sets the cell at (row, col). A cell is in form of [ attributes, ch ].
+
+### resize(rows, cols)
+
+Resizes the screen buffer.
+
+### clone()
+
+Returns a clone of the screen buffer.
+
+### getRow(row)
+
+Returns a row data array. _Don't modify it!_
+
+## ScreenBuffer Diff and Patch
+
+Sometimes, you may want to stream the content of a screen buffer
+over the network.
+
+You can use `ScreenBuffer.diff` and `ScreenBuffer.patch` for this.
+
+Suppose that you have two ScreenBuffer objects, `a` and `b`,
+
+```javascript
+var operations = ScreenBuffer.diff(b, a)
+```
+
+This will compute the operations that needs to be done on `b`
+to make its contents equal to `a`.
+The returned result is an array of operations,
+which can be sent over the wire to another user.
+
+At the other side,
+when they received the operations,
+they can apply it to their own buffer like this:
+
+```javascript
+ScreenBuffer.patch(b, operations)
+```
+
+
+### ScreenBuffer.diff(source, destination)
+
+Computes the list of operation _to be applied on the source_
+to make it match the target.
+
+A returned result will have this structure:
+
+```javascript
+[OPERATION, ...]
+```
+
+An _OPERATION_ represents an operation:
+
+* `ROWS` (resize number of rows)
+* `[X, Y]` (set cursor position)
+* `[row, 0, COLUMNS]` (resize column)
+* `[row, 1, SOURCE ROW INDEX]` (copy)
+* `[row, column, "TEXT", "COMPRESSED ATTRIBUTE,..."]` (draw text)
+
+A _COMPRESSED ATTRIBUTE_ has the form:
+
+* `VALUE`
+* `VALUE*MULTIPLICITY`
+
+### ScreenBuffer.patch(screenbuffer, operations)
+
+Applies the operations from the diff array onto the screenbuffer.
 
