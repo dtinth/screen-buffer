@@ -1,4 +1,4 @@
-ScreenBuffer
+ScreenBuffer [![ok, travis](https://travis-ci.org/dtinth/screen-buffer.png?branch=master)](https://travis-ci.org/dtinth/screen-buffer)
 ============
 
 A ScreenBuffer represents a visible portion of a terminal in a screen.

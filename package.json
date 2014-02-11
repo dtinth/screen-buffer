@@ -4,7 +4,8 @@
   "description": "A simple screen buffer component",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coveralls": "mocha --require blanket --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -13,6 +14,14 @@
   "author": "Thai Pangsakulyanont <org.yi.dttvb@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "~1.17.1"
+    "mocha": "~1.17.1",
+    "coveralls": "~2.7.1",
+    "blanket": "~1.1.6",
+    "mocha-lcov-reporter": "0.0.1"
+  },
+  "config": {
+    "blanket": {
+      "pattern": ["screen-buffer.js", "diff.js", "patch.js"]
+    }
   }
 }
