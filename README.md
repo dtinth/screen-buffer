@@ -41,6 +41,22 @@ There are two special values for colors:
  
 ## API
 
+### ScreenBuffer.EMPTY_CELL
+
+An empty cell: default background and foreground with space character.
+
+### ondirty : function(row) { }
+
+Override this function to be notified when changes are made to the buffer.
+
+### cursorX : Number
+
+The X position of the cursor (0 = leftmost)
+
+### cursorY : Number
+
+The Y position of the cursor (0 = topmost)
+
 ### update(y, [ [attr, char], [attr, char], ... ]) 
 
 Set one line of data in the ScreenBuffer.

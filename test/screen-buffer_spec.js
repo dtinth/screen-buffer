@@ -4,12 +4,15 @@ var assert = require('assert')
 
 describe('ScreenBuffer', function() {
 
+  var buffer
+
+  beforeEach(function() {
+    buffer = new ScreenBuffer()
+  })
+
   describe('with some data', function() {
 
-    var buffer
-
     beforeEach(function() {
-      buffer = new ScreenBuffer()
       buffer.update(0, [[0, '1'], [50, '2']])
       buffer.update(1, [[100, 'x']])
     })
@@ -66,6 +69,42 @@ describe('ScreenBuffer', function() {
       assert.deepEqual(row, [[0, 'Z']])
     })
 
+  })
+
+  describe('ondirty', function() {
+
+    var dirty
+
+    beforeEach(function() {
+      dirty = { }
+      buffer.ondirty = function(row) {
+        dirty[row] = true
+      }
+    })
+
+    function assertDirty() {
+      var expected = [].slice.call(arguments)
+      var actual = Object.getOwnPropertyNames(dirty)
+      expected.sort()
+      actual.sort()
+      assert.deepEqual(expected, actual)
+    }
+
+    it('should call ondirty on update', function() {
+      buffer.update(2, [[0, 'Z']])
+      assertDirty(2)
+    })
+
+    it('should call ondirty on cursor moved', function() {
+      buffer.setCursor(29, 12)
+      assertDirty(0, 12)
+    })
+
+    it('should call ondirty on setCell', function() {
+      buffer.setCell(29, 12, [0, 'Z'])
+      assertDirty(29)
+    })
+    
   })
   
 })

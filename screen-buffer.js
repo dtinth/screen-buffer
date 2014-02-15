@@ -47,7 +47,29 @@ function ScreenBuffer() {
   this.data = []
 }
 
+// ### ScreenBuffer.EMPTY_CELL
+//
+// An empty cell: default background and foreground with space character.
+//
 ScreenBuffer.EMPTY_CELL = [(257 << 9) | 256, ' ']
+
+// ### ondirty : function(row) { }
+//
+// Override this function to be notified when changes are made to the buffer.
+//
+ScreenBuffer.prototype.ondirty = function(row) { }
+
+// ### cursorX : Number
+//
+// The X position of the cursor (0 = leftmost)
+//
+ScreenBuffer.prototype.cursorX = 0
+
+// ### cursorY : Number
+//
+// The Y position of the cursor (0 = topmost)
+//
+ScreenBuffer.prototype.cursorY = 0
 
 // ### update(y, [ [attr, char], [attr, char], ... ]) 
 //
@@ -65,6 +87,7 @@ ScreenBuffer.prototype.update = function(y, target) {
       arr[i] = null
     }
   }
+  this.ondirty(y)
 }
 
 // ### toString()
@@ -100,7 +123,10 @@ ScreenBuffer.prototype.setCursor = function(x, y) {
   //
   // The Y position of the cursor.
   //
+  this.ondirty(this.cursorY)
   this.cursorY = y
+  this.ondirty(y)
+
 }
 
 // ### getRows()
@@ -152,6 +178,7 @@ ScreenBuffer.prototype.getCell = function(row, col) {
 ScreenBuffer.prototype.setCell = function(row, col, cell) {
   var arr = this.data[row] || (this.data[row] = [])
   arr[col] = cell
+  this.ondirty(row)
 }
 
 // ### resize(rows, cols)
