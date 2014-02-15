@@ -1,6 +1,6 @@
 {
   "name": "screen-buffer",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "A simple screen buffer component",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,11 @@
   },
   "config": {
     "blanket": {
-      "pattern": ["screen-buffer.js", "diff.js", "patch.js"]
+      "pattern": [
+        "screen-buffer.js",
+        "diff.js",
+        "patch.js"
+      ]
     }
   }
 }
